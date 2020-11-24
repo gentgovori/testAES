@@ -7,6 +7,8 @@ Security project using FLASK
 - Install PIP
 - Install virtualenv
 
+In order to run the app.py file you need to set up your enviroment yourself. 
+
 <b>To get access to an implementation of AES-256 we need to :</b>
 - Install pycryptodome
 
