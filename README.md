@@ -28,3 +28,6 @@ P is the parallelization factor, useful for running on multiple cores.
 - Base64: We encode all of our bytes-type data into base64 a convenient string representation
 - Tag: The tag is used to authenticate the data when using AES in GCM mode. This ensures no one can change our data without us knowing about it when we decrypt.
 
+<b> decrypt()</b>
+
+The decrypt function needs the same salt, nonce, tag, and password for it to convert cipher text to plaintext 
