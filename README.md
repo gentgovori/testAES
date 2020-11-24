@@ -7,4 +7,6 @@ Security project using FLASK
 - Install PIP
 - Install virtualenv
 
+<b>To get access to an implementation of AES-256 we need to :</b>
+- Install pycryptodome
 
