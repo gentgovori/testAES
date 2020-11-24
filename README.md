@@ -29,6 +29,17 @@ R is the block size.
 P is the parallelization factor, useful for running on multiple cores.
 - Base64: We encode all of our bytes-type data into base64 a convenient string representation
 - Tag: The tag is used to authenticate the data when using AES in GCM mode. This ensures no one can change our data without us knowing about it when we decrypt.
+<code>
+# generate a random salt
+    salt = get_random_bytes(AES.block_size)
+
+    # use the Scrypt KDF to get a private key from the password
+    private_key = hashlib.scrypt(
+        password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+
+    # create cipher config
+    cipher_config = AES.new(private_key, AES.MODE_GCM)
+</code>
 
 <b> decrypt()</b>
 
