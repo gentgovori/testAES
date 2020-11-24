@@ -1,0 +1,241 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<style>
+  .swal2-popup {
+    font-size: 1.6rem !important;
+  }
+</style>
+
+{% endblock %}
+
+{% block body %}
+<section class="buttons">
+  <h1>&lt;/&gt;AES ENKRIPTIMI&lt;/&gt;</h1>
+</section>
+<div id="search-form" class="search-form">
+  <!-- <div id="pershkrimi">
+        <h1 style="float: left;">&lt;/&gt;AES ENKRIPTIMI&lt;/&gt;</h1>
+
+    </div> -->
+
+  <form>
+    <input id="plainText" type="text" placeholder="Plain Text">
+    <button></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <input id="password" type="text" placeholder="Password">
+    <button id="2345"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a href="javascript:void(0)" style="margin-left: 70px; margin-right: auto;" id="hamami"
+      class="btn btn-5">Enkripto</a>
+  </form>
+</div>
+
+
+
+<div id="search-form1">
+  <form>
+    <input id="cipher" type="text" placeholder="Cipher text">
+    <button id="1234c"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <input id="nonce" type="text" placeholder="Nonce">
+    <button id="1234n"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <input id="tag" type="text" placeholder="Tag">
+    <button id="1234t"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+    <input id="salt" type="text" placeholder="Salt">
+    <button id="1234"></button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <input id="passwordP" type="text" placeholder="Password">
+    <button id="1234p"></button>
+    <br><br><br>
+    <br>
+    <a href="javascript:void(0)" style="margin-left: 70px; margin-right: auto;" id="btnDekripto"
+      class="btn btn-5">Dekripto</a>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  var input = document.getElementById('search-form');
+  var search = document.querySelector('input');
+  var button = document.querySelector('button');
+  var button2 = document.getElementById('2345');
+  button.addEventListener('click', function (e) {
+    e.preventDefault();
+    input.classList.toggle('active');
+  })
+  button2.addEventListener('click', function (e) {
+    e.preventDefault();
+    input.classList.toggle('active');
+  })
+  search.addEventListener('focus', function () {
+    input.classList.add('focus');
+  })
+
+  // search.addEventListener('blur', function() {
+  //   search.value.length != 0 ? input.classList.add('focus') : input.classList.remove('focus');
+  // })
+
+  var input1 = document.getElementById('search-form1');
+  var search1 = document.getElementById('password');
+  var button1 = document.getElementById('1234');
+  var button2 = document.getElementById('1234t');
+  var button3 = document.getElementById('1234n');
+  var button4 = document.getElementById('1234c');
+  var button5 = document.getElementById('1234p');
+  button1.addEventListener('click', function (e) {
+    e.preventDefault();
+    input1.classList.toggle('active');
+  })
+  button2.addEventListener('click', function (e) {
+    e.preventDefault();
+    input1.classList.toggle('active');
+  })
+  button3.addEventListener('click', function (e) {
+    e.preventDefault();
+    input1.classList.toggle('active');
+  })
+  button4.addEventListener('click', function (e) {
+    e.preventDefault();
+    input1.classList.toggle('active');
+  })
+  button5.addEventListener('click', function (e) {
+    e.preventDefault();
+    input1.classList.toggle('active');
+  })
+  search1.addEventListener('focus', function () {
+    input1.classList.add('focus');
+  })
+
+  search1.addEventListener('blur', function () {
+    search1.value.length != 0 ? input1.classList.add('focus') : input1.classList.remove('focus');
+  })
+</script>
+
+
+
+<script>
+
+
+  $(document).ready(function () {
+
+    $("#btnDekripto").click(function () {
+
+      var ciphertext = $('#cipher').val();
+      var nonce = $('#nonce').val();
+      var tag = $('#tag').val();
+      var salt = $('#salt').val();
+      var password = $('#passwordP').val();
+
+      $.ajax({
+
+        type: 'POST',
+        url: "{{url_for('_dekriptoAES')}}",
+        data: JSON.stringify({ "cipher_text": ciphertext, "password": password ,"nonce": nonce, "tag": tag,"salt":salt }),
+        contentType: 'application/json',
+        success: function (data) {
+
+
+
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Sukses...',
+            html: "<b>Plain text :</b> "+data ,
+            showCancelButton: false,
+            confirmButtonText: `Ne rregull`,
+            footer: '<a href>Dekriptimi me AES ishte i suksesshem</a>',
+            showConfirmButton: false
+          })
+
+        }
+
+      });
+
+
+
+
+    });
+
+    $("#hamami").click(function () {
+
+      var value = $('#plainText').val();
+      var password = $('#password').val();
+      if (value != "" && password != "") {
+        $.ajax({
+          type: 'POST',
+          url: "{{url_for('_enkriptoAES')}}",
+          data: JSON.stringify({ "plain_text": value, "password": password }),
+          contentType: 'application/json',
+          success: function (data) {
+
+
+
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Sukses...',
+              html: "<b>Cipher text :</b> " + data.cipher_text + "<br><b>Nonce:</b>  " + data.nonce + "<br><b>Salt:</b> " + data.salt + "<br><b> Tag:</b> " + data.tag,
+              showCancelButton: false,
+              confirmButtonText: `Ne rregull`,
+              footer: '<a href>Enkriptimi me AES ishte i suksesshem</a>',
+              showConfirmButton: false
+            })
+
+          }
+        });
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Mbushni fushat!',
+          showConfirmButton: false,
+          footer: '<a href>Fushat Plaintext dhe password duhet te jene te mbushura!</a>'
+
+        })
+      }
+    });
+  });
+
+
+</script>
+{% endblock %}
