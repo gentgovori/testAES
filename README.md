@@ -10,7 +10,7 @@ Security project using FLASK
 <b>To get access to an implementation of AES-256 we need to :</b>
 - Install pycryptodome
 
-Usually AES needs padding but with AES-256 we don't have to do any padding.
+Usually AES needs padding but with AES-256 we don't have to do any padding. We set the AES-MODE to <b>GCM</b>
 
 We have 2 functions that we use to encrypt and decrypt
 - encrypt()
